@@ -1,0 +1,1 @@
+console.log("Ho messo il javascript della rimozione")
