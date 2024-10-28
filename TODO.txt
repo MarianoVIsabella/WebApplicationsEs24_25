@@ -1,0 +1,5 @@
+-CSS della schermata home 
+-Javascript aggiunta/rimozione riga (occhio a colonna "Numero vittorie")
+-Anno singolo non decorato
+-Anno singolo decorato
+-Anni multipli
