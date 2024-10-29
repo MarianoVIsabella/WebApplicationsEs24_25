@@ -1,2 +1,1 @@
 -Anni multipli e gestione di "Numero vittorie"
--Validazione format
