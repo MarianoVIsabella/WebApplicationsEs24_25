@@ -1,5 +1,2 @@
--Javascript aggiunta/rimozione riga (occhio a colonna "Numero vittorie")
--Anno singolo non decorato
--Anno singolo decorato
--Anni multipli
+-Anni multipli e gestione di "Numero vittorie"
 -Validazione format
