@@ -1,1 +1,3 @@
--Anni multipli e gestione di "Numero vittorie"
+-Anni multipli?
+-Visualizza indicazione su cosa inserire?
+-Che succede se nel campo anni non inserisco valori numerici?
