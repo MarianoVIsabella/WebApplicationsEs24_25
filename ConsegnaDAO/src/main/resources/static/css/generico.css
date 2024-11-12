@@ -1,0 +1,16 @@
+header {
+    text-align: center;
+}
+
+body{
+    background-color: yellow;
+}
+
+header img {
+    border-radius: 50%;
+}
+
+/*nav li{
+    display: inline;
+}*/
+
