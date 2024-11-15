@@ -133,8 +133,27 @@ public class RistoranteDaoJDBC implements RistoranteDao {
 
     @Override
     public void delete(Ristorante ristorante) {
-
-    }
+        Ristorante check=findByPrimaryKey(ristorante.getNome());
+        if (check == null){
+            //se entro qui non esiste il ristorante nel db e dunque non devo eliminare niente
+            return;
+        }
+        List<Piatto> piatti = ristorante.getPiatti(); //prendo tutti i piatti serviti dal ristorante che sto per eliminare
+        for (Piatto tempP : piatti) {
+            if (tempP.getRistoranti() != null){
+                tempP.getRistoranti().remove(ristorante); //rimuovo il ristorante appena cancellato dalla lista se presente
+            }
+        }
+        try {
+            //cancella le tuple nella relazione, grazie all' "On Delete Cascade" le cancella anche dal join
+            String query="DELETE FROM ristorante WHERE nome = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, ristorante.getNome());
+            preparedStatement.execute();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        }
 
     @Override
     public List<Ristorante> findAllByPiattoName(String name) {

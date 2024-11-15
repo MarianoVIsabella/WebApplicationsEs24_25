@@ -112,7 +112,26 @@ ON CONFLICT (id) DO UPDATE SET txt = EXCLUDED.txt;
 
     @Override
     public void delete(Piatto piatto) {
-
+        Piatto check=findByPrimaryKey(piatto.getNome());
+        if (check==null){
+            //se sono qui non esiste il piatto e non faccio niente
+            return;
+        }
+        List<Ristorante> ristoranti=piatto.getRistoranti(); //lista dei Ristoranti con il piatto da eliminare
+        for (Ristorante tempR : ristoranti) {
+            if (tempR.getPiatti() != null){
+                tempR.getPiatti().remove(piatto); //rimuovo il piatto appena cancellato dalla lista se presente
+            }
+        }
+        try {
+            //cancella le tuple nella relazione e dal join grazie alla "On delete cascade" del db
+            String query="DELETE FROM ristorante WHERE nome = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, piatto.getNome());
+            preparedStatement.execute();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
