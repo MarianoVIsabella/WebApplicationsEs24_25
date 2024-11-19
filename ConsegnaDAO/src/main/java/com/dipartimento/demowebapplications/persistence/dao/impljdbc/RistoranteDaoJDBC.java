@@ -1,5 +1,6 @@
 package com.dipartimento.demowebapplications.persistence.dao.impljdbc;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import com.dipartimento.demowebapplications.model.Piatto;
 import com.dipartimento.demowebapplications.model.Ristorante;
 import com.dipartimento.demowebapplications.persistence.DBManager;
@@ -85,9 +86,14 @@ public class RistoranteDaoJDBC implements RistoranteDao {
 
             List<Piatto> piatti = ristorante.getPiatti();
             if(piatti==null || piatti.isEmpty()){
+                //Se entro qui ho appena creato questa riga nel database, SAVE, non faccio altro.
                 return;
             }
-
+            for (Piatto tempP: piatti){
+                //per ogni piatto associato al ristorante, mi assicuro che questa relazione esista nel join
+                insertJoinRistorantePiatto(connection,ristorante.getNome(),tempP.getNome());
+            }
+            /* CODICE UPDATE VECCHIO
             // reset all relation present in the join table
             restRelationsPResentInTheJoinTable(connection , ristorante.getNome());
 
@@ -97,7 +103,7 @@ public class RistoranteDaoJDBC implements RistoranteDao {
                 pd.save(tempP);
                 insertJoinRistorantePiatto(connection , ristorante.getNome() , tempP.getNome());
             }
-
+             */
 
 
 

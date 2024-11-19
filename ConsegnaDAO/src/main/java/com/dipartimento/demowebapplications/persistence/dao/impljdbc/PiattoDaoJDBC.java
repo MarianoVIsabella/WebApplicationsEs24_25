@@ -75,8 +75,15 @@ ON CONFLICT (id) DO UPDATE SET txt = EXCLUDED.txt;
             statement.executeUpdate();
             List<Ristorante> ristoranti= piatto.getRistoranti();
             if (ristoranti==null || ristoranti.isEmpty()){
+                //se entro qui nuova riga di piatto, SAVE, non faccio altro
                 return;
             }
+            //se sono qui, il piatto ha qualche ristorante associato, mi assicuro di inserirli nella relazione
+            for (Ristorante ristorante : ristoranti){
+                insertJoinRistorantePiatto(connection, ristorante.getNome(), piatto.getNome());
+            }
+
+            /* VECCHIO UPDATE
             //resetto tutte le tuple che legano il piatto che sto salvando a un ristorante per poterle
             //reinserire
             resetRelationsPresentInTheJoinTable(connection,piatto.getNome());
@@ -85,6 +92,7 @@ ON CONFLICT (id) DO UPDATE SET txt = EXCLUDED.txt;
                 rd.save(r);
                 insertJoinRistorantePiatto(connection,r.getNome(),piatto.getNome());
             }
+             */
 
         } catch (Exception e) {
             e.printStackTrace();
